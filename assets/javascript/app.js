@@ -22,3 +22,14 @@ var starTimeFreq = $("#time-freq").mask("00");
   };
 
 firebase.initializeApp(config);
+// db (firebox) info setup for local use
+var database = firebase.database();
+
+database.ref("/ships").on("child_added", function(snap) {
+
+    //  local variables data from db
+    var shipDiff = 0;
+    var shipRemainder = 0;
+    var minutesTillArrival = "";
+    var nextshipTime = "";
+    var frequency = snap.val().frequency;
