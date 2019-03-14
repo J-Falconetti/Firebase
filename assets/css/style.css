@@ -1,6 +1,13 @@
 body {
-    background-color: gray    
-    }
+    background-image: url("../images/bround.jpg");
+    background-size: 100%, 100%;
+    background-repeat: repeat-y;
+}
+
+.jumbotron {
+    font-family: 'Press Start 2P', cursive;
+}
+
 
 .spacer10 { 
     height: 100px;
