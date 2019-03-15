@@ -1,9 +1,20 @@
-.space {
+h1 {
+    font-weight: bold;
+    color:yellow ;
+    font-size: 64px;
+  }
+h2 {
+      font-weight: bold;
+      color: yellow;
+      font-size: 32px;
+  }
+  .space {
     font-family: 'VT323', monospace;
     color: yellow;
     background-image: url(../images/bround.jpg);
     background-size: 100%, 100%;
     background-repeat: repeat-y;
+    
 }
 
 .card-body {
