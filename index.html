@@ -1,103 +1,92 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
 
 <head>
-
-  <meta charset="UTF-8">
-  <title>Starship Tracker</title>
-
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
-  <script src="https://www.gstatic.com/firebasejs/5.8.6/firebase.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/4.12.0/firebase.js"></script>
-  
+	<meta charset="utf-8">
+	<title>Star Travler</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/5.9.0/firebase.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+	<script type="text/javascript" src="assets/javascript/app.js"></script>
+	<link rel="stylesheet" href="assets/css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=VT323" rel="stylesheet">
 </head>
 
 <body>
 
-  <!-- Ship Tracker -->
-  <div class="container">
+	<!-- Star Ship -->
+	<div class="space">
+		<div class="container">
 
-    <!-- Jumbotron -->
-    <div class="jumbotron" style="background-color: black; color: yellow">
-      <h1 class="text-center">Star Hoppers</h1>
-      <h3 class="text-center">Schedule for Interplanetary Travel</h3>
-    </div>
+			<div class="jumbotron" style="background-color:black; color: yellow">
+				<h1 class="text-center">Star Travler</h1>
+				<h4 class="text-center">For all you Intergalatic Travel Needs</h4>
+			</div>
 
-    <div class="row">
+			<div class="row">
 
-      <div class="col-md-12">
+				<div class="col-lg-12">
 
-        <!-- setting tables-->
-        <div class="card mb-4">
-          <div class="card-header">Current Ships</div>
-          <div class="card-body">
-            <table class="table table-sm table-hover" id='ships-table'>
-              <thead>
-                <tr>
-                  <th scope="col">Name of Starship</th>
-                  <th scope="col">Destination</th>
-                  <th scope="col">Frequency </th>
-                  <th scope="col">Next Arrival</th>
-                  <th scope="col">Minuets Away</th>
-                </tr>
-              </thead>
-              <tbody>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
+					<!-- Current Schedule-->
+					<div class="card card-warning">
+						<div class="card-heading">
+							<h3 class="card-title"><strong>Current ship Schedule</strong></h3>
+						</div>
+						<div class="card-body">
+							<table class="table table-hover" id='ship-table'>
+								<div class = "Style">
+								<thead>
+									<tr>
+										<th>ship Name</th>
+										<th>Destination</th>
+										<th>Frequency (min)</th>
+										<th>Next Arrival</th>
+										<th>Minutes Away</th>
+									</tr>
+								</thead>
+							</div>
+								<tbody>
+								</tbody>
+							</table>
+						</div>
+					</div>
 
-    <div class="row">
-      <div class="col-md-12">
-        <!-- Add Ship  -->
-        <div class="card mb-4">
-          <div class="card-header">Star Ships</div>
-          <div class="card-body">
+					<!-- Add Schedule  -->
+					<div class="card card-warning">
+						<div class="card-heading">
+							<h3 class="card-title"><strong>Add ship</strong></h3>
+						</div>
+						<div class="card-body">
 
-            <!-- Entry Form -->
-            <form>
-              <div class="form-group">
-                <label for="shipName-input">Starship Name</label>
-                <input class="form-control" id="shipName-input" placeholder="<Enter ships name>" type="text">
-              </div>
-              <div class="form-group">
-                <label for="goingto-input">Destination</label>
-                <input class="form-control" id="goingto-input" placeholder="Dest." type="text">
-              </div>
-              <div class="form-group">
-                <label for="First-Flight-Time-input"></label>Time of First Flight (24hr format)</label>
-                <input class="form-control" id="First-Flight-Time-input" placeholder="00:00" type="text">
-              </div>
-              <div class="form-group">
-                <label for="Frequency-input"></label>Frequency (in mins)</label>
-                <input class="form-control" id="Frequency-input" placeholder="200" type="text">
-              </div>
-              <button class="btn btn-secondary float-left" id="add-flight-btn">Add</button>
-            </form>
-
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- JavaScript -->
-  <!-- change javascript -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-  <script src="assets/javascript/app.js"></script>
-
+							<!-- Entry Form -->
+							<form>
+								<div class="form-group">
+									<label for="ship-name-input">ship Name</label>
+									<input class="form-control" id="ship-name-input" type="text">
+								</div>
+								<div class="form-group">
+									<label for="dest-input">Destination</label>
+									<input class="form-control" id="dest-input" type="text">
+								</div>
+								<div class="form-group">
+									<label for="firstship-input">First ship Time (HH:mm - military time)</label>
+									<input class="form-control" id="firstship-input" type="text">
+								</div>
+								<div class="form-group">
+									<label for="freq-input">Frequency (min)</label>
+									<input class="form-control" id="freq-input" type="text">
+								</div>
+								<button class="btn btn-warning" id="add-ship-btn" type="submit">Submit</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			</div>
+			</div>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 </body>
 
 </html>

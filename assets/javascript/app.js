@@ -1,73 +1,63 @@
-$(document).ready(function () {
-// Set Variables
-var shipName = "";
-var shipDestination = "";
-var shipTime = "";
-var shipFrequency = "";
-var nextArrival = "";
-var minutesAway = "";
-var starship = $("#ship-name");
-var starshipDestination = $("#ship-destination");
-var starshipTime = $("#ship-time").mask("00:00");
-var starTimeFreq = $("#time-freq").mask("00");
-
-// Initialize Firebase
-var config = {
-  apiKey: "AIzaSyAsv17YRZ4fAKoYe7AUQYCet56jWO4bEVo",
-  authDomain: "startravel-cdcf3.firebaseapp.com",
-  databaseURL: "https://startravel-cdcf3.firebaseio.com",
-  projectId: "startravel-cdcf3",
-  storageBucket: "startravel-cdcf3.appspot.com",
-  messagingSenderId: "12355858482"
-  };
-
-firebase.initializeApp(config);
-// db (firebox) info setup for local use
-var database = firebase.database();
-
-database.ref("/ships").on("child_added", function(snap) {
-
-    //  local variables data from db
-    var shipDiff = 0;
-    var shipRemainder = 0;
-    var minutesTillArrival = "";
-    var nextshipTime = "";
-    var frequency = snap.val().frequency;
-    var storeInputs = function(event) {
-      event.preventDefault();
-      // get user input
-      shipName = starship.val().trim();
-      shipDestination = starshipDestination.val().trim();
-      shipTime = moment(starshipTime.val().trim(), "HH:mm").subtract(1, "years").format("X");
-      shipFrequency = starTimeFreq.val().trim();
+      var config = {
+      apiKey: "AIzaSyAsv17YRZ4fAKoYe7AUQYCet56jWO4bEVo",
+      authDomain: "startravel-cdcf3.firebaseapp.com",
+      databaseURL: "https://startravel-cdcf3.firebaseio.com",
+      projectId: "startravel-cdcf3",
+      storageBucket: "startravel-cdcf3.appspot.com",
+      messagingSenderId: "12355858482"
+    };
+// set  golbal varibles
+  var shipName = "";
+  var shipDest = "";
+  var firstship ="";
+  var shipFreq = "";
+  
+  // start db
+  $(document).ready(function() {  
+      firebase.initializeApp(config); 
+      var database = firebase.database();
+         $("#add-ship-btn").on("click", function(event) {
+          event.preventDefault();
+       // user input
+        shipName = $("#ship-name-input").val().trim();
+        shipDest = $("#dest-input").val().trim();
+        firstship = $("#firstship-input").val().trim();
+        shipFreq = $("#freq-input").val().trim();
+        // Creates local "temporary" object for holding ship data
+        var newship = {
+          name: shipName,
+          destination: shipDest,
+          start: firstship,
+          frequency: shipFreq
+        };
+            // Uploads ship data to the database
+          database.ref().push(newship);
+       // Clears data and alerts of addition
+        $("#ship-name-input").val("");
+        $("#dest-input").val("");
+        $("#firstship-input").val("");
+        $("#freq-input").val("");
+        alert("ship successfully added");
+        });
+    // adds info to db
+      database.ref().on("child_added", function(childSnapshot, prevChildKey) {
+        var shipName = childSnapshot.val().name;
+        var shipDest = childSnapshot.val().destination;
+        var firstship = childSnapshot.val().start;
+        var shipFreq = childSnapshot.val().frequency;
     
-    }
+        // time functions
+           var firstTime = 0;
+             var firstTimeConverted = moment(firstTime, "HH:mm");
+              var currentTime = moment();
+                  var diffTime = moment().diff(moment(firstTimeConverted), "minutes"); 
+          var tRemainder = diffTime % shipFreq;
+          var tMinutesTillship = shipFreq - tRemainder;        
+          var nextship = moment().add(tMinutesTillship, "minutes");
     
-    database.ref("/ships").push({
-      name: shipName,
-      destination: shipDestination,
-      time: shipTime,
-      frequency: shipFrequency,
-      nextArrival: nextArrival,
-      minutesAway: minutesAway,
-      date_added: firebase.database.ServerValue.TIMESTAMP
-  });
-  //  submit and add
-    alert("ship successuflly added!");
-    starship.val("");
-    starshipDestination.val("");
-    starshipTime.val("");
-    starTimeFreq.val("");
-  });
- 
-$("#btn-add").on("click", function(event) {
-   if (starship.val().length === 0 || starshipDestination.val().length === 0 || starshipTime.val().length === 0 || starTimeFreq === 0) {
-      alert("Please Fill All Required Fields");
-  } else {
-      // if form is filled out, run function
-      storeInputs(event);
-  }
-
-  }
-)}
-)
+          // Adding to table
+        $("#ship-table > tbody").append("<tr><td>" + shipName + "</td><td>" + shipDest + "</td><td>" + shipFreq + 
+         "</td><td>" + moment(nextship).format("HH:mm") + "</td><td>" + tMinutesTillship + "</td></tr>");
+      });
+    
+    });
